@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { RowDataPacket } from "mysql2";
-import { loginData } from "../../../types/reqDataTypes.js";
+import { loginData } from "../../../types/reqBodies.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
 import {
   candidatePasswordRegex,
@@ -8,8 +8,8 @@ import {
   gmailRegex
 } from "../../../validators/validators.js";
 import signJWT from "../../../utils/signJWT.js";
-import sendVerificationMail from "../../functions/sendVerificationMail.js";
-import giveEmailVerificationToken from "../../functions/createVerificationToken.js";
+import sendVerificationMail from "../../utils/sendVerificationMail.js";
+import giveEmailVerificationToken from "../../utils/createVerificationToken.js";
 
 const loginCandidate = async (loginData: loginData) => {
   const { identifier, password } = loginData;

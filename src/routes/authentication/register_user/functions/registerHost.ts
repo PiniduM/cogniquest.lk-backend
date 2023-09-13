@@ -9,10 +9,10 @@ import {
   hostPasswordRegex,
   hostUsernameRegex,
 } from "../../../validators/validators.js";
-import { ThostRegistrationData } from "../../../types/reqDataTypes.js";
+import { ThostRegistrationData } from "../../../types/reqBodies.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
-import sendVerificationMail from "../../functions/sendVerificationMail.js";
-import giveEmailVerificationToken from "../../functions/createVerificationToken.js";
+import sendVerificationMail from "../../utils/sendVerificationMail.js";
+import giveEmailVerificationToken from "../../utils/createVerificationToken.js";
 
 const registerHost = async (data: ThostRegistrationData) => {
   const {

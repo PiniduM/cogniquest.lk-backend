@@ -1,10 +1,17 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { json } from "express";
-import authRouter from "./authentication/authRouter.js";
+import authRouter from "./routes/authentication/authRouter.js";
+import organizationMemberRouter from "./routes/organization_member/organizationMemberRouter.js";
+import path from "path";
+import moduleAlias from 'module-alias';
+
+//dev setup 
+// const srcDirectoryRoot = __dirname;
+// moduleAlias.addAlias('@',srcDirectoryRoot);
 
 
-//setup
+// server setup
 dotenv.config();
 
 const server = express();
@@ -20,6 +27,7 @@ server.use(json());
 
 //routes
 server.use("/authentication",authRouter)
+server.use('/organization_member',organizationMemberRouter)
 
 
 

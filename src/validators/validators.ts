@@ -1,11 +1,24 @@
+//simlinked frontend\validator.ts <-> backend\validator.ts
+//sensitive data are not exposed if they are not imported in client
+//but don't take a risk create a seperate file if necessary.
+
 //common
 export const emailRegex =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 export const gmailRegex = /^[a-zA-Z0-9.+_-]+@gmail\.com$/;
+export const usernameRegex = /^[a-zA-Z0-9]{6,12}$/;
+export const passwordRegex = /^[a-zA-Z0-9]{6,12}$/;
 export const BirthDateRegex = /^\d{4}-\d{1,2}-\d{1,2}$/;
-export const LKPhoneNumberRegex = /^[0-9]{10,10}$/;
-export const fullNameRegex = /^[a-zA-Z .]{0,30}$/;
+export const phoneNumberRegex = /^[0-9]{10,10}$/; //highly versatile find a universal one
+// export const LKPhoneNumberRegex = /^[0-9]{10,10}$/;
+export const addressRegex =
+/^[0-9a-zA-Z\s\.,-?\s]{4,100}$/
+;
+  //use google maps api in production
+export const fullNameRegex =
+  /^[a-zA-Z.]{1,15} [a-zA-Z.]{1,15}[a-zA-Z .]{0,15}$/;
+
 //candidate specifics
 export const candidateUsernameRegex = /^[a-zA-Z0-9]{6,8}$/;
 export const candidatePasswordRegex = /^[a-zA-Z0-9]{6,12}$/;
@@ -20,7 +33,6 @@ export const validOccupations = [
 //host speifics
 export const hostUsernameRegex = /^[a-zA-Z0-9]{6,8}$/;
 export const hostPasswordRegex = /^[a-zA-Z0-9]{6,12}$/;
-export const organizationRegex = /^[a-zA-Z0-9() .]{0,50}$/;
 export const validRoles = [
   "chairman",
   "manager",
@@ -28,6 +40,14 @@ export const validRoles = [
   "employee",
   "other",
 ];
+
+//orgainzation specifics
+//export const organizationNameRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+export const organizationNameRegex = /^.{2,100}$/;
+export const validOrganizationTypes = ["for_profit","non_profit"];
+export const referencePrefixRegex = /^[A-Z]{4}$/;
+export const referenceCodeRegex = /^[A-Z]{4}[0-9]{4}$/;
+
 
 export const validCountries = [
   "Afghanistan",
@@ -279,5 +299,5 @@ export const validCountries = [
   "Western Sahara",
   "Yemen",
   "Zambia",
-  "Zimbabwe"
-]
+  "Zimbabwe",
+];
