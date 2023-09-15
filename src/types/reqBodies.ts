@@ -1,3 +1,7 @@
+import {
+  IOrganizationMembershipsPayload,
+  TParsedMembershipsArray,
+} from "./commonInterfaces.js";
 
 export type TcandidateRegistrationData = {
   type: string;
@@ -26,10 +30,6 @@ export type TloginData = {
   identifier: string;
   password: string;
 };
-
-export interface hostingStaffUserData {
-  userId: string;
-}
 
 export interface decryptedLoginToken {
   email: string;
@@ -75,9 +75,53 @@ export type TSetupHostingStaffAccountReqBody = {
 // hosting_staff specifics
 export type TGiveOrganizationMemberToken = {
   loginToken: string;
-}
+};
 
 export type TGiveAssociatedOrganizations = {
-  LoginToken: string;
-  userData?: hostingStaffUserData;
+  associatedOrganizationIds: string[];
+};
+
+export type TGiveAssociatedCompetitions = {
+  org_membership_token: string;
+  userData: {
+    user_id: string;
+    valid_memberships: TParsedMembershipsArray;
+  };
+};
+
+export type TGiveCompetitionsWaitingForApproval = {
+  org_membership_token: string;
+  userData: {
+    user_id: string;
+    valid_memberships: TParsedMembershipsArray;
+  };
+};
+
+export type TSubmitNewCompetition = {
+  competition_title: string;
+  description: string;
+  organization_id: string;
+  accessibility: string;
+  organizationMembershipsToken: string;
+  userData: {
+    user_id: string;
+    valid_memberships: TParsedMembershipsArray;
+  };
+};
+
+export type TGiveCompetition = {
+  competition_id: string;
+  organizationMembershipsToken: string;
+  userData: {
+    user_id: string;
+    valid_memberships: TParsedMembershipsArray;
+  };
+};
+export type TApproveCompetition = {
+  competition_id: string;
+  organizationMembershipsToken: string;
+  userData: {
+    user_id: string;
+    valid_memberships: TParsedMembershipsArray;
+  };
 };

@@ -5,9 +5,9 @@ import {
   addressRegex,
   validOrganizationTypes,
   referencePrefixRegex,
-} from "../../../validators/validators.js";
+} from "../../../../validators/validators.js";
 
-import { TOrganizationRegistrationData} from "../../../types/reqBodies.js";
+import { TOrganizationRegistrationData} from "../../../../types/reqBodies.js";
 
 const validateOrgRegistrationData = (data: TOrganizationRegistrationData) => {
   const {

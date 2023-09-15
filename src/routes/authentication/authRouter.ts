@@ -1,12 +1,11 @@
 import { Router } from "express";
-import mainDBPool from "../utils/mainDBPool.js";
+import mainDBPool from "../../utils/mainDBPool.js";
 import registerUser from "./register_user/registerUser.js";
 import login from "./login/login.js";
 import verifyEmail from "./verify_email/verifyEmali.js";
 import registerOrganization from "./register_organization/registerOrganization.js";
-import extractUserData from "./utils/extractUserData.js";
-import loginValidator from "../middlewhere/loginValidator.js";
-import setupHostingStaffAccount from "./setup_organization_member_account/setupOrganizationMemberAccount.js";
+import loginValidator from "../../middlewhere/loginValidator.js";
+import setupOrganizationMembership from "./setup_organization_membership/setupOrganizationMembership.js";
 import setupCandidateAccount from "./setup_candidate_account/setupCandidateAccount.js";
 
 const authRouter = Router();
@@ -31,6 +30,6 @@ authRouter.use("/", loginValidator);
 authRouter.post("/setup_candidate_account",setupCandidateAccount);
 
 authRouter.post("/register_organization", registerOrganization);
-authRouter.post('/setup_hosting_staff_account',setupHostingStaffAccount);
+authRouter.post('/setup_hosting_staff_account',setupOrganizationMembership);
 
 export default authRouter;

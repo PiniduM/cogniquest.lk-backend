@@ -3,24 +3,23 @@ import { TGiveAssociatedOrganizations } from "../../../types/reqBodies.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
 import { RowDataPacket } from "mysql2";
 
-const giveAssociatedOrganizations: RequestHandler = (req, res) => {
+const giveAssociatedOrganizations: RequestHandler = async (req, res) => {
   const data = req.body as TGiveAssociatedOrganizations;
 
-  const { userId } = data.userData;
+  const { associatedOrganizationIds } = data;
 
-  const sql =
-    `SELECT organization_id,organization_name,role FROM hosting_staff 
-    INNER JOIN organizations USING (organization_id) WHERE user_id=?;`;
-    const values = [userId]
+  const Filteringvalues = `(${associatedOrganizationIds.join(",")})`;
 
-    try {
-        const response = mainDBPool.query(sql,values) as RowDataPacket;
-        const result = response[0];
-        res.status(200).json(result);
-    } catch (error) {
-        console.log(error);
-        res.status(501).json('unknown_error');
-    }
+  const sql = `SELECT organization_id,organization_name FROM organizations WHERE organization_id IN ${Filteringvalues}`;
+
+  try {
+    const response = await mainDBPool.query(sql) as RowDataPacket;
+    const result = response[0];
+    res.status(200).json({ associatedOrganizations: result });
+  } catch (error) {
+    console.log(error);
+    res.status(501).json("unknown_error");
+  }
 };
 
 export default giveAssociatedOrganizations;

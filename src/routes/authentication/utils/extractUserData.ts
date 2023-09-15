@@ -1,5 +1,5 @@
-import verifyAndDecodeJWT from "../../utils/verifyAndDecodeJWT.js";
-import { ILoginPayload } from "../../types/serverSpecifics.js";
+import verifyAndDecodeJWT from "../../../utils/verifyAndDecodeJWT.js";
+import { ILoginPayload } from "../../../types/commonInterfaces.js";
 
 const extractUserData = (loginToken: string) => {
         const payload = verifyAndDecodeJWT(loginToken) as ILoginPayload;

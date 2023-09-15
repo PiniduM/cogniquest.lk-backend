@@ -1,6 +1,6 @@
-import generateRandomNumber from "../../utils/generateRandomNumber.js";
-import mainDBPool from "../../utils/mainDBPool.js";
-import sendMail from "../../utils/sendMail.js";
+import generateRandomNumber from "../../../utils/generateRandomNumber.js";
+import mainDBPool from "../../../utils/mainDBPool.js";
+import sendMail from "../../../utils/sendMail.js";
 import createVerificationMail from "./createVerificationMail.js";
 import giveEmailVerificationToken from "./createVerificationToken.js";
 

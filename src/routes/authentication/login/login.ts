@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { emailRegex,passwordRegex } from "src/validators/validators.js";
-import mainDBPool from "src/utils/mainDBPool.js";
+import { emailRegex,passwordRegex } from "../../../validators/validators.js";
+import mainDBPool from "../../../utils/mainDBPool.js";
 import { RowDataPacket } from "mysql2";
-import signJWT from "src/utils/signJWT.js";
+import signJWT from "../../../utils/signJWT.js";
 import sendVerificationMail from "../utils/sendVerificationMail.js";
-import { ILoginPayload } from "src/types/serverSpecifics.js";
+import { ILoginPayload } from "../../../types/commonInterfaces.js";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;

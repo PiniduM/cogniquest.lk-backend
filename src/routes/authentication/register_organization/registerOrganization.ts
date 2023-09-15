@@ -1,17 +1,17 @@
 import { RequestHandler } from "express";
 import validateOrgRegistrationData from "./functions/validateOrgRegistrationData.js";
-import mainDBPool from "../../utils/mainDBPool.js";
+import mainDBPool from "../../../utils/mainDBPool.js";
 import { ErrorPacketParams, ResultSetHeader, RowDataPacket } from "mysql2";
-import { TRegisterOrganizationReqBody } from "../../types/reqBodies.js";
-import generateRandomNumber from "../../utils/generateRandomNumber.js";
+import { TRegisterOrganizationReqBody } from "../../../types/reqBodies.js";
+import generateRandomNumber from "../../../utils/generateRandomNumber.js";
 import registerAdmin from "./functions/registerAdmin.js";
-import verifyAndDecodeJWT from "../../utils/verifyAndDecodeJWT.js";
+import verifyAndDecodeJWT from "../../../utils/verifyAndDecodeJWT.js";
 import updateUserAcccountType from "./functions/updateUserAccountType.js";
 
 const registerOrganization: RequestHandler = async (req, res) => {
   const { orgRegistrationData, userData } = req.body as TRegisterOrganizationReqBody;
 
-  const userId = userData?.userId as string// validated and parsed by middlewhere
+  const userId = userData?.user_id as string// validated and parsed by middlewhere
   
   if (!validateOrgRegistrationData(orgRegistrationData)) {
     res.status(406).json("invalid_data");

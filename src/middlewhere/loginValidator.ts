@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import extractUserData from "../authentication/utils/extractUserData.js";
+import extractUserData from "../routes/authentication/utils/extractUserData.js";
 
 const loginValidator = (req:Request, res:Response, next:NextFunction) => {
     const { loginToken } = req.body;

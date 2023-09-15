@@ -7,8 +7,8 @@ import {
   passwordRegex,
   usernameRegex,
   validCountries,
-} from "../../validators/validators.js";
-import mainDBPool from "../../utils/mainDBPool.js";
+} from "../../../validators/validators.js";
+import mainDBPool from "../../../utils/mainDBPool.js";
 import { ErrorPacketParams } from "mysql2";
 import sendVerificationMail from "../utils/sendVerificationMail.js";
 

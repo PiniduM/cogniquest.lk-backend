@@ -1,4 +1,4 @@
-import mainDBPool from "../../../utils/mainDBPool.js";
+import mainDBPool from "../../../../utils/mainDBPool.js";
 
 const updateUserAcccountType = (userId: string) => {
   const sql = `

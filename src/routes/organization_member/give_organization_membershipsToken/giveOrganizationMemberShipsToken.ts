@@ -7,10 +7,15 @@ import verifyAndDecodeJWT from "../../../utils/verifyAndDecodeJWT.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
 import { RowDataPacket } from "mysql2";
 import signJWT from "../../../utils/signJWT.js";
+import { IOrganizationMembershipsPayload } from "../../../types/commonInterfaces.js";
 
-const giveOrganizationMemberToken: RequestHandler = (req, res) => {
+const giveOrganizationMembershipsToken: RequestHandler = async  (req, res) => {
   const data = req.body as TGiveOrganizationMemberToken;
   const loginToken = data.loginToken;
+  if(!loginToken) {
+    res.status(401).json('unauthorized');
+    return;
+  }
   const userData = verifyAndDecodeJWT(loginToken) as
     | decryptedLoginToken
     | false;
@@ -21,20 +26,21 @@ const giveOrganizationMemberToken: RequestHandler = (req, res) => {
   }
   const { user_id } = userData;
 
-  const sql = `SELECT organization,member_id,admin_approved,system_verified FROM hosting_staff WHERE user_id=?;`;
+  const sql = `SELECT member_id,role,organization_id,admin_approved,system_verified FROM organization_memberships WHERE user_id=?;`;
   const values = [user_id];
   try {
-    const response = mainDBPool.query(sql, values) as RowDataPacket;
+    const response = await mainDBPool.query(sql, values) as RowDataPacket;
     const result = response[0];
-    const payload = {
+    const payload:IOrganizationMembershipsPayload = {
       user_id,
-      memberships: result,
+      memberships: JSON.stringify(result),
     };
-    const hostingStaffToken = signJWT(payload, "2h");
-    res.status(200).json(hostingStaffToken);
-  } catch {
+    const organizationMembershipsToken = signJWT(payload, "2h");
+    res.status(200).json({organizationMembershipsToken});
+  } catch(error) {
+    console.log(error);
     res.status(500).json("unknown_error");
   }
 };
 
-export default giveOrganizationMemberToken;
+export default giveOrganizationMembershipsToken;

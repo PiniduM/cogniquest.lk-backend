@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import verifyAndDecodeJWT from "../../utils/verifyAndDecodeJWT.js";
-import mainDBPool from "../../utils/mainDBPool.js";
+import verifyAndDecodeJWT from "../../../utils/verifyAndDecodeJWT.js";
+import mainDBPool from "../../../utils/mainDBPool.js";
 import { JwtPayload } from "jsonwebtoken";
 import { ResultSetHeader } from "mysql2";
 

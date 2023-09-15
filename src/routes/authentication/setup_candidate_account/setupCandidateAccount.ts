@@ -1,17 +1,17 @@
 import { RequestHandler } from "express";
-import { TSetupCandidateAccountReqBody } from "../../types/reqBodies.js";
+import { TSetupCandidateAccountReqBody } from "../../../types/reqBodies.js";
 import {
   BirthDateRegex,
   validOccupations,
-} from "../../validators/validators.js";
-import mainDBPool from "../../utils/mainDBPool.js";
+} from "../../../validators/validators.js";
+import mainDBPool from "../../../utils/mainDBPool.js";
 import { ResultSetHeader } from "mysql2";
 
 const setupCandidateAccount: RequestHandler = async (req, res) => {
   const { candidateAccountSetupData, userData } =
     req.body as TSetupCandidateAccountReqBody;
 
-  const userId = userData?.userId as string;
+  const userId = userData?.user_id as string;
   const { birthdate, occupation } = candidateAccountSetupData;
 
   if (
