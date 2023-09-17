@@ -7,8 +7,8 @@ import mainDBPool from "../../../utils/mainDBPool.js";
 import { ErrorPacketParams, ResultSetHeader } from "mysql2";
 
 const submitNewCompetition: RequestHandler = async (req, res) => {
-//   console.log(req.body);
-//   console.log(req.file);
+  //   console.log(req.body);
+  //   console.log(req.file);
   const data = req.body as TSubmitNewCompetition;
   const applicationFormPDF = req.file;
   const deleteApplicationForm = async () => {
@@ -23,12 +23,12 @@ const submitNewCompetition: RequestHandler = async (req, res) => {
     userData,
   } = data;
 
-  const { valid_memberships } = userData;
-  console.log(valid_memberships);
+  const { validMemberships } = userData;
+  console.log(validMemberships);
   let relevent_membership;
-  valid_memberships.forEach((membership) => {
+  validMemberships.forEach((membership) => {
     if (membership.organization_id == organization_id) {
-        relevent_membership = membership;
+      relevent_membership = membership;
     }
   });
   //one membership for a one user in a specific organization (limited in db)
@@ -42,7 +42,7 @@ const submitNewCompetition: RequestHandler = async (req, res) => {
     (relevent_membership as IMembership).role === "admin" ? "Y" : "N";
 
   const accessibilityParsed = JSON.parse(accessibility);
-     const { type: accessibilityType } = accessibilityParsed;
+  const { type: accessibilityType } = accessibilityParsed;
   //   const passcodeProtected = accessibilityType === "passcode-protected";
   const competitionLink = `${
     process.env.CLIENT_DOMAIN
@@ -75,9 +75,8 @@ const submitNewCompetition: RequestHandler = async (req, res) => {
   } catch (err) {
     const error = err as ErrorPacketParams;
     console.log(error);
-    if(error?.code === 'ER_DUP_ENTRY') res.status(406).json('duplicate_title');
-    else
-    res.status(500).json("unknown_error");
+    if (error?.code === "ER_DUP_ENTRY") res.status(406).json("duplicate_title");
+    else res.status(500).json("unknown_error");
   }
 };
 

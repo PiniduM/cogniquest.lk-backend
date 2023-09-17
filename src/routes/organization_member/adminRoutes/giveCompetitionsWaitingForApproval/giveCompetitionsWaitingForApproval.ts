@@ -8,9 +8,9 @@ const giveCompetitionssWaitingForApproval: RequestHandler = async (
   res
 ) => {
   const data = req.body as TGiveCompetitionsWaitingForApproval;
-  const { valid_memberships } = data.userData;
+  const { validMemberships } = data.userData;
 
-  const adminMemberships = valid_memberships.filter(
+  const adminMemberships = validMemberships.filter(
     (membership) => membership.role === "admin"
   );
   if (adminMemberships.length < 1) {
@@ -20,11 +20,12 @@ const giveCompetitionssWaitingForApproval: RequestHandler = async (
   const ApprovableOrganizations = adminMemberships.map(
     (membership) => membership.organization_id
   );
+  //these data types are definite since they are validated through the middlewhere organizationMembershipsValidtor
 
   const filteringSet = `(${ApprovableOrganizations.join(",")})`;
 
-  const sql = `SELECT competition_id,competition_title,accessibility,status,organization_name FROM organizations INNER JOIN competitions USING (organization_id) WHERE organization_id IN ${filteringSet} AND admin_approved='N';`;
   try {
+    const sql = `SELECT competition_id,competition_title,accessibility,status,organization_name FROM organizations INNER JOIN competitions USING (organization_id) WHERE organization_id IN ${filteringSet} AND admin_approved='N';`;
     const response = (await mainDBPool.query(sql)) as RowDataPacket;
     const result = response[0];
     res.status(200).json({ competitions: result });

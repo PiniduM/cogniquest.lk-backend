@@ -11,9 +11,9 @@ const approveCompetion: RequestHandler = async (req, res) => {
     res.status(406).json("invalid_competition_id");
     return;
   }
-  const { valid_memberships } = userData;
+  const { validMemberships } = userData;
 
-  const isAuthorized = valid_memberships.some(
+  const isAuthorized = validMemberships.some(
     (membership) =>
       membership.organization_id === organization_id &&
       membership.role === "admin"

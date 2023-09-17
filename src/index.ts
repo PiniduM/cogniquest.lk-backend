@@ -6,6 +6,7 @@ import organizationMemberRouter from "./routes/organization_member/organizationM
 import path from "path";
 import moduleAlias from "module-alias";
 import managementRouter from "./routes/management/managementRouter.js";
+import generalRouter from "./routes/general/generalRouter.js";
 
 //dev setup
 // const srcDirectoryRoot = __dirname;
@@ -28,6 +29,7 @@ server.use(json());
 server.use("/authentication", authRouter);
 server.use("/organization_member", organizationMemberRouter);
 server.use("/management", managementRouter);
+server.use('/general',generalRouter);
 
 server.listen(process.env.PORT, () => {
   console.log(`listening to port ${process.env.PORT}`);

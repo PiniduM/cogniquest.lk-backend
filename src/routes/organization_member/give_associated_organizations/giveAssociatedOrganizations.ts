@@ -6,7 +6,12 @@ import { RowDataPacket } from "mysql2";
 const giveAssociatedOrganizations: RequestHandler = async (req, res) => {
   const data = req.body as TGiveAssociatedOrganizations;
 
-  const { associatedOrganizationIds } = data;
+  const { userData } = data;
+
+  const validMemberships = userData.validMemberships;
+  const associatedOrganizationIds = validMemberships.map(
+    (membership) => membership.organization_id
+  );
 
   const Filteringvalues = `(${associatedOrganizationIds.join(",")})`;
 

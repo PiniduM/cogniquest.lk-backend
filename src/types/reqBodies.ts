@@ -77,51 +77,31 @@ export type TGiveOrganizationMemberToken = {
   loginToken: string;
 };
 
-export type TGiveAssociatedOrganizations = {
-  associatedOrganizationIds: string[];
-};
-
-export type TGiveAssociatedCompetitions = {
-  org_membership_token: string;
+export interface IOrganizationMemberDefaults {
+  organizationMembershipsToken: string;
   userData: {
-    user_id: string;
-    valid_memberships: TParsedMembershipsArray;
+    userId: string;
+    validMemberships: TParsedMembershipsArray;
   };
-};
+}
 
-export type TGiveCompetitionsWaitingForApproval = {
-  org_membership_token: string;
-  userData: {
-    user_id: string;
-    valid_memberships: TParsedMembershipsArray;
-  };
-};
+export type TGiveAssociatedOrganizations = IOrganizationMemberDefaults
 
-export type TSubmitNewCompetition = {
+export type TGiveAssociatedCompetitions = IOrganizationMemberDefaults;
+
+export type TGiveCompetitionsWaitingForApproval = IOrganizationMemberDefaults
+export type TSubmitNewCompetition = IOrganizationMemberDefaults & {
   competition_title: string;
   description: string;
   organization_id: string;
   accessibility: string;
-  organizationMembershipsToken: string;
-  userData: {
-    user_id: string;
-    valid_memberships: TParsedMembershipsArray;
-  };
+
 };
 
-export type TGiveCompetition = {
+export type TGiveCompetition = IOrganizationMemberDefaults & {
   competition_id: string;
-  organizationMembershipsToken: string;
-  userData: {
-    user_id: string;
-    valid_memberships: TParsedMembershipsArray;
-  };
 };
-export type TApproveCompetition = {
+
+export type TApproveCompetition = IOrganizationMemberDefaults & {
   competition_id: string;
-  organizationMembershipsToken: string;
-  userData: {
-    user_id: string;
-    valid_memberships: TParsedMembershipsArray;
-  };
 };

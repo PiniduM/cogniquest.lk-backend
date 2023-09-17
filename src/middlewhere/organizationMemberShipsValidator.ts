@@ -23,6 +23,7 @@ const organizationMembershipsValidator = (
         return;
         //token mismatch
       }
+
       const membershipsArray = JSON.parse(
         memberships
       ) as TParsedMembershipsArray;
@@ -36,7 +37,7 @@ const organizationMembershipsValidator = (
         res.status(401).json("unauthorized");
         return;
       }
-      const userData = { user_id, valid_memberships: validMemberships };
+      const userData = { userId: user_id, validMemberships };
       req.body.userData = userData;
       next();
     } catch {
