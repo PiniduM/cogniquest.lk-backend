@@ -33,12 +33,11 @@ const organizationMembershipsValidator = (
           membership.system_verified === "Y"
       );
       if (validMemberships.length < 1) {
-        console.log(validMemberships);
         res.status(401).json("unauthorized");
         return;
       }
-      const userData = { userId: user_id, validMemberships };
-      req.body.userData = userData;
+      const parsedData = { userId: user_id, validMemberships };
+      req.body.parsedData = parsedData;
       next();
     } catch {
       res.status(406).send("invalid_memberships_token");

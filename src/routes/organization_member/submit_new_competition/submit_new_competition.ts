@@ -20,7 +20,7 @@ const submitNewCompetition: RequestHandler = async (req, res) => {
     competition_title,
     description,
     accessibility,
-    userData,
+    parsedData: userData,
   } = data;
 
   const { validMemberships } = userData;

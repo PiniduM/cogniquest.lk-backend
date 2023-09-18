@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 const upload = multer({ dest: "uploads/" });
 
-import organizationMembershipsValidator from "../../middlewhere/organizationMemberShipsValidator.js";
+import organizationMembershipsValidator from "../../middlewhere/organizationMembershipsValidator.js";
 import giveAssociatedCompetitions from "./give_assiciated_competitions/giveAssociatedCompetitions.js";
 import giveOrganizationMembershipsToken from "./give_organization_membershipsToken/giveOrganizationMemberShipsToken.js";
 import giveAssociatedOrganizations from "./give_associated_organizations/giveAssociatedOrganizations.js";

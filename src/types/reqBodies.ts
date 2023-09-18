@@ -79,7 +79,7 @@ export type TGiveOrganizationMemberToken = {
 
 export interface IOrganizationMemberDefaults {
   organizationMembershipsToken: string;
-  userData: {
+  parsedData: {
     userId: string;
     validMemberships: TParsedMembershipsArray;
   };

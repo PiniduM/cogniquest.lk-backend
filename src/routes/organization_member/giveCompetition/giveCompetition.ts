@@ -5,7 +5,7 @@ import mainDBPool from "../../../utils/mainDBPool.js";
 import { RowDataPacket } from "mysql2";
 
 const giveCompetition: RequestHandler = async (req, res) => {
-  const { competition_id, userData } = req.body as TGiveCompetition;
+  const { competition_id, parsedData: userData } = req.body as TGiveCompetition;
 
   const organization_id = await giveOrganizationId(competition_id);
   if (!organization_id) {

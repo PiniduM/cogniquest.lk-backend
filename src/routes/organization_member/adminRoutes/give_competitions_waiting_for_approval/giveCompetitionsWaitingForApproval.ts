@@ -8,7 +8,7 @@ const giveCompetitionssWaitingForApproval: RequestHandler = async (
   res
 ) => {
   const data = req.body as TGiveCompetitionsWaitingForApproval;
-  const { validMemberships } = data.userData;
+  const { validMemberships } = data.parsedData;
 
   const adminMemberships = validMemberships.filter(
     (membership) => membership.role === "admin"

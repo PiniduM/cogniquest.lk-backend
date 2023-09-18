@@ -5,7 +5,8 @@ import { TGiveAssociatedCompetitions } from "../../../types/reqBodies.js";
 
 const giveAssociatedCompetitions: RequestHandler = async (req, res) => {
   const data = req.body as TGiveAssociatedCompetitions;
-  const { userId, validMemberships } = data.userData;
+  console.log(data.parsedData);
+  const { userId, validMemberships } = data.parsedData;
 
   // const sql = `SELECT competition_id,title,accessibility,'status',organization_name FROM
   //   ((SELECT organization_id FROM organization_memberships WHERE user_id=?) AS orgids

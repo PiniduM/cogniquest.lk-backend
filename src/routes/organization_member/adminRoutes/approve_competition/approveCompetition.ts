@@ -4,7 +4,7 @@ import giveOrganizationId from "../../functions/giveOrganizationId.js";
 import mainDBPool from "../../../../utils/mainDBPool.js";
 
 const approveCompetion: RequestHandler = async (req, res) => {
-  const { competition_id, userData } = req.body as TApproveCompetition;
+  const { competition_id, parsedData: userData } = req.body as TApproveCompetition;
 
   const organization_id = await giveOrganizationId(competition_id);
   if (!organization_id) {
