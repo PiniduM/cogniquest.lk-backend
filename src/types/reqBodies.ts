@@ -89,7 +89,7 @@ export type TGiveAssociatedOrganizations = IOrganizationMemberDefaults
 
 export type TGiveAssociatedCompetitions = IOrganizationMemberDefaults;
 
-export type TGiveCompetitionsWaitingForApproval = IOrganizationMemberDefaults
+
 export type TSubmitNewCompetition = IOrganizationMemberDefaults & {
   competition_title: string;
   description: string;
@@ -102,6 +102,3 @@ export type TGiveCompetition = IOrganizationMemberDefaults & {
   competition_id: string;
 };
 
-export type TApproveCompetition = IOrganizationMemberDefaults & {
-  competition_id: string;
-};

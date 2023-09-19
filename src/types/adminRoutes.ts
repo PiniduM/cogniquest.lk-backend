@@ -12,5 +12,10 @@ export interface IOrganizationAdminDefaults {
 export type TGiveORganizationBody = IOrganizationAdminDefaults;
 
 export type TApproveMembershipsBody = IOrganizationAdminDefaults & {
-    member_id: string;
-}
+  member_id: string;
+};
+export type TGiveCompetitionsWaitingForApprovalBody = IOrganizationAdminDefaults;
+
+export type TApproveCompetition = IOrganizationAdminDefaults & {
+  competitionId: string;
+};
