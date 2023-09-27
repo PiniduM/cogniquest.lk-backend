@@ -1,19 +1,17 @@
 import { RequestHandler } from "express";
-import {
-  TGiveOrganizationMemberToken,
-  decryptedLoginToken,
-} from "../../../types/reqBodies.js";
+import { decryptedLoginToken } from "../../../types/authenticationRoutes.js";
 import verifyAndDecodeJWT from "../../../utils/verifyAndDecodeJWT.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
 import { RowDataPacket } from "mysql2";
 import signJWT from "../../../utils/signJWT.js";
 import { IOrganizationMembershipsPayload } from "../../../types/commonInterfaces.js";
+import { TGiveOrganizationMemberTokenReqBody } from "../../../types/organizationMemberRoutes.js";
 
-const giveOrganizationMembershipsToken: RequestHandler = async  (req, res) => {
-  const data = req.body as TGiveOrganizationMemberToken;
+const giveOrganizationMembershipsToken: RequestHandler = async (req, res) => {
+  const data = req.body as TGiveOrganizationMemberTokenReqBody;
   const loginToken = data.loginToken;
-  if(!loginToken) {
-    res.status(401).json('unauthorized');
+  if (!loginToken) {
+    res.status(401).json("unauthorized");
     return;
   }
   const userData = verifyAndDecodeJWT(loginToken) as
@@ -29,15 +27,15 @@ const giveOrganizationMembershipsToken: RequestHandler = async  (req, res) => {
   const sql = `SELECT member_id,role,organization_id,admin_approved,system_verified FROM organization_memberships WHERE user_id=?;`;
   const values = [user_id];
   try {
-    const response = await mainDBPool.query(sql, values) as RowDataPacket;
+    const response = (await mainDBPool.query(sql, values)) as RowDataPacket;
     const result = response[0];
-    const payload:IOrganizationMembershipsPayload = {
+    const payload: IOrganizationMembershipsPayload = {
       user_id,
       memberships: JSON.stringify(result),
     };
     const organizationMembershipsToken = signJWT(payload, "2h");
-    res.status(200).json({organizationMembershipsToken});
-  } catch(error) {
+    res.status(200).json({ organizationMembershipsToken });
+  } catch (error) {
     console.log(error);
     res.status(500).json("unknown_error");
   }

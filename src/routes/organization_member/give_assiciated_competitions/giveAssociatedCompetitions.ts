@@ -1,10 +1,10 @@
 import { RequestHandler } from "express";
 import mainDBPool from "../../../utils/mainDBPool.js";
 import { RowDataPacket } from "mysql2";
-import { TGiveAssociatedCompetitions } from "../../../types/reqBodies.js";
+import { TGiveAssociatedCompetitionsReqBody } from "../../../types/organizationMemberRoutes.js";
 
 const giveAssociatedCompetitions: RequestHandler = async (req, res) => {
-  const data = req.body as TGiveAssociatedCompetitions;
+  const data = req.body as TGiveAssociatedCompetitionsReqBody;
   console.log(data.parsedData);
   const { userId, validMemberships } = data.parsedData;
 

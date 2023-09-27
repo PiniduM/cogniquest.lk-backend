@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { TSetupHostingStaffAccountReqBody } from "../../../types/reqBodies.js";
+import { TSetupHostingStaffAccountReqBody } from "../../../types/authenticationRoutes.js";
 import { referenceCodeRegex, validRoles } from "../../../validators/validators.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
 

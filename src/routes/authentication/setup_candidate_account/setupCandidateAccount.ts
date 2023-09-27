@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { TSetupCandidateAccountReqBody } from "../../../types/reqBodies.js";
+import { TSetupCandidateAccountReqBody } from "../../../types/authenticationRoutes.js";
 import {
   BirthDateRegex,
   validOccupations,

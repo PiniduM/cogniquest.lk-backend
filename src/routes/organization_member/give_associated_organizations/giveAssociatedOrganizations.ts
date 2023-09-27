@@ -1,10 +1,10 @@
 import { RequestHandler } from "express";
-import { TGiveAssociatedOrganizations } from "../../../types/reqBodies.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
 import { RowDataPacket } from "mysql2";
+import { TGiveAssociatedOrganizationsReqBody } from "../../../types/organizationMemberRoutes.js";
 
 const giveAssociatedOrganizations: RequestHandler = async (req, res) => {
-  const data = req.body as TGiveAssociatedOrganizations;
+  const data = req.body as TGiveAssociatedOrganizationsReqBody;
 
   const { parsedData: userData } = data;
 

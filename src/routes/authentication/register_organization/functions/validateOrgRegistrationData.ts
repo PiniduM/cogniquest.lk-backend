@@ -7,7 +7,7 @@ import {
   referencePrefixRegex,
 } from "../../../../validators/validators.js";
 
-import { TOrganizationRegistrationData} from "../../../../types/reqBodies.js";
+import { TOrganizationRegistrationData} from "../../../../types/authenticationRoutes.js";
 
 const validateOrgRegistrationData = (data: TOrganizationRegistrationData) => {
   const {

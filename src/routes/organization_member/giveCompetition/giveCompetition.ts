@@ -1,19 +1,20 @@
 import { RequestHandler } from "express";
-import { TGiveCompetition } from "../../../types/reqBodies.js";
 import giveOrganizationId from "../functions/giveOrganizationId.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
 import { RowDataPacket } from "mysql2";
+import { TGiveCompetitionReqBody } from "../../../types/organizationMemberRoutes.js";
 
 const giveCompetition: RequestHandler = async (req, res) => {
-  const { competition_id, parsedData: userData } = req.body as TGiveCompetition;
+  const { competitionId, parsedData: userData } =
+    req.body as TGiveCompetitionReqBody;
 
-  const organization_id = await giveOrganizationId(competition_id);
+  const organization_id = await giveOrganizationId(competitionId);
   if (!organization_id) {
     res.status(406).json("invalid_competition_id");
     return;
   }
 
-  const {validMemberships } = userData;
+  const { validMemberships } = userData;
   let accessible = false;
   validMemberships.forEach((membership) => {
     if (membership.organization_id === organization_id) accessible = true;
@@ -25,7 +26,7 @@ const giveCompetition: RequestHandler = async (req, res) => {
   }
 
   const sql = "SELECT * FROM competitions WHERE competition_id = ?";
-  const values = [competition_id];
+  const values = [competitionId];
   try {
     const response = (await mainDBPool.query(sql, values)) as RowDataPacket;
     const result = response[0];

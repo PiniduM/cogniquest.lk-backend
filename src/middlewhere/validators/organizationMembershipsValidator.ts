@@ -1,0 +1,50 @@
+import { NextFunction, Request, Response } from "express";
+import verifyAndDecodeJWT from "../../utils/verifyAndDecodeJWT.js";
+
+import { IOrganizationMembershipsPayload } from "../../types/commonInterfaces.js";
+import { TParsedMembershipsArray } from "../../types/commonInterfaces.js";
+
+const organizationMembershipsValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const organizationMembershipsToken = req.header(
+    "organization_memberships_token"
+  );
+  if (!organizationMembershipsToken) res.status(401).json("unauthorized");
+  else {
+    try {
+      const payload = verifyAndDecodeJWT(
+        organizationMembershipsToken
+      ) as IOrganizationMembershipsPayload;
+      const { user_id, memberships } = payload;
+      if (!memberships) {
+        console.log("h");
+        res.status(401).json("unauthorized");
+        return;
+        //token mismatch
+      }
+
+      const membershipsArray = JSON.parse(
+        memberships
+      ) as TParsedMembershipsArray;
+      const validMemberships = membershipsArray.filter(
+        (membership) =>
+          (membership.role !== "admin" && membership.admin_approved === "Y") ||
+          membership.system_verified === "Y"
+      );
+      if (validMemberships.length < 1) {
+        res.status(401).json("unauthorized");
+        return;
+      }
+      const parsedData = { userId: user_id, validMemberships };
+      req.body.parsedData = parsedData;
+      next();
+    } catch {
+      res.status(406).send("invalid_memberships_token");
+    }
+  }
+};
+
+export default organizationMembershipsValidator;

@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import validateOrgRegistrationData from "./functions/validateOrgRegistrationData.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
 import { ErrorPacketParams, ResultSetHeader, RowDataPacket } from "mysql2";
-import { TRegisterOrganizationReqBody } from "../../../types/reqBodies.js";
+import { TRegisterOrganizationReqBody } from "../../../types/authenticationRoutes.js";
 import generateRandomNumber from "../../../utils/generateRandomNumber.js";
 import registerAdmin from "./functions/registerAdmin.js";
 import verifyAndDecodeJWT from "../../../utils/verifyAndDecodeJWT.js";

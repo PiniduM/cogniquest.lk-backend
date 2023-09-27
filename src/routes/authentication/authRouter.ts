@@ -4,7 +4,7 @@ import registerUser from "./register_user/registerUser.js";
 import login from "./login/login.js";
 import verifyEmail from "./verify_email/verifyEmali.js";
 import registerOrganization from "./register_organization/registerOrganization.js";
-import loginValidator from "../../middlewhere/loginValidator.js";
+import loginValidator from "../../middlewhere/validators/loginValidator.js";
 import setupOrganizationMembership from "./setup_organization_membership/setupOrganizationMembership.js";
 import setupCandidateAccount from "./setup_candidate_account/setupCandidateAccount.js";
 
@@ -23,7 +23,6 @@ authRouter.post("/login", login);
 authRouter.post("/verify_email", verifyEmail);
 
 //protected routes
-
 //validate and set userdata
 authRouter.use("/", loginValidator);
 

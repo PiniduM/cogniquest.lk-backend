@@ -1,21 +1,20 @@
 import { IMembership, TParsedMembershipsArray } from "./commonInterfaces.js";
 
-export interface IOrganizationAdminDefaults {
+export interface IParsedByAdminMembershipValidator {
   organizationMembershipsToken: string;
-  parsedData: {
-    userId: string;
-    validMemberships: TParsedMembershipsArray;
-    adminMembership: IMembership;
-  };
   organizationId: string;
+  parsedData: {
+    organizationMembership: IMembership;
+  };
 }
-export type TGiveORganizationBody = IOrganizationAdminDefaults;
+export type TGiveORganizationReqBody = IParsedByAdminMembershipValidator;
 
-export type TApproveMembershipsBody = IOrganizationAdminDefaults & {
+export type TApproveMembershipsReqBody = IParsedByAdminMembershipValidator & {
   member_id: string;
 };
-export type TGiveCompetitionsWaitingForApprovalBody = IOrganizationAdminDefaults;
+export type TGiveCompetitionsWaitingForApprovalReqBody =
+  IParsedByAdminMembershipValidator;
 
-export type TApproveCompetition = IOrganizationAdminDefaults & {
+export type TApproveCompetitionReqBody = IParsedByAdminMembershipValidator & {
   competitionId: string;
 };
