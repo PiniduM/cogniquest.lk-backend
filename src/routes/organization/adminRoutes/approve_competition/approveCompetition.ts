@@ -5,7 +5,7 @@ import mainDBPool from "../../../../utils/mainDBPool.js";
 
 const approveCompetion: RequestHandler = async (req, res) => {
   const { competitionId, parsedData} = req.body as TApproveCompetitionReqBody;
-  const {organization_id} = parsedData.organizationMembership;
+  const {organization_id} = parsedData.relevantMembership;
 
 
   const sql =

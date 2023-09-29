@@ -4,7 +4,7 @@ export interface IParsedByAdminMembershipValidator {
   organizationMembershipsToken: string;
   organizationId: string;
   parsedData: {
-    organizationMembership: IMembership;
+    relevantMembership: IMembership;
   };
 }
 export type TGiveORganizationReqBody = IParsedByAdminMembershipValidator;

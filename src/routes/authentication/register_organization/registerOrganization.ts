@@ -11,7 +11,7 @@ import updateUserAcccountType from "./functions/updateUserAccountType.js";
 const registerOrganization: RequestHandler = async (req, res) => {
   const { orgRegistrationData, userData } = req.body as TRegisterOrganizationReqBody;
 
-  const userId = userData?.user_id as string// validated and parsed by middlewhere
+  const userId = userData?.userId as string// validated and parsed by middlewhere
   
   if (!validateOrgRegistrationData(orgRegistrationData)) {
     res.status(406).json("invalid_data");

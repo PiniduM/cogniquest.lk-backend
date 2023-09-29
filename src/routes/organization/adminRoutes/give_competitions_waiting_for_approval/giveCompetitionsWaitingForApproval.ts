@@ -5,8 +5,7 @@ import { TGiveCompetitionsWaitingForApprovalReqBody } from "../../../../types/ad
 
 const giveCompetitionsWaitingForApproval: RequestHandler = async (req, res) => {
   const { parsedData } = req.body as TGiveCompetitionsWaitingForApprovalReqBody;
-  const { organizationMembership } = parsedData;
-  const { organization_id } = organizationMembership;
+  const { organization_id } = parsedData.relevantMembership;
 
   const sql = `SELECT competition_id,competition_title,accessibility,status,organization_name FROM organizations INNER JOIN competitions USING (organization_id) WHERE organization_id=? AND admin_approved='N';`;
   const values = [organization_id];

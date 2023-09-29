@@ -7,7 +7,7 @@ const setupOrganizationMembership: RequestHandler = async (req, res) => {
   const { hostingStaffAccountSetupData, userData } =
     req.body as TSetupHostingStaffAccountReqBody;
 
-  const userId = userData?.user_id as string;
+  const userId = userData?.userId as string;
   const { referenceCode,role } = hostingStaffAccountSetupData;
 
   if (!(referenceCode && role) || !(referenceCodeRegex.test(referenceCode) && validRoles.includes(role))) {

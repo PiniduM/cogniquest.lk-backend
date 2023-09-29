@@ -3,11 +3,12 @@ import candidateTokenValidator from "../../middlewhere/validators/candidateToken
 import applyForCompetition from "./apply_for_competition/applyForCompetition.js";
 import giveCompetition from "./giveCompetition/giveCompetition.js";
 import submitProject from "./submit_project/submitProject.js";
-import projectSubmissionRequestParser from "../../middlewhere/parsers/projectSubmissionRequestParser.js";
+import giveParticipationStatus from "./giveApplicationStatus/giveParticipationStatus.js";
+import giveCandidateToken from "./give_candidate_token/giveCandidateToken.js";
 
 const candidateRouter = Router();
 
-candidateRouter.post("/give_candidate_token");
+candidateRouter.post("/give_candidate_token", giveCandidateToken);
 
 candidateRouter.use("/", candidateTokenValidator);
 
@@ -15,9 +16,6 @@ candidateRouter.post("/give_competition", giveCompetition);
 
 candidateRouter.post("/apply_for_competition", applyForCompetition);
 
-candidateRouter.post(
-  "/submit_project",
-  projectSubmissionRequestParser,
-  submitProject
-);
+candidateRouter.post("/give_participation_status", giveParticipationStatus);
+candidateRouter.post("/submit_project", submitProject);
 export default candidateRouter;

@@ -11,9 +11,13 @@ const setupCandidateAccount: RequestHandler = async (req, res) => {
   const { candidateAccountSetupData, userData } =
     req.body as TSetupCandidateAccountReqBody;
 
-  const userId = userData?.user_id as string;
-  const { birthdate, occupation } = candidateAccountSetupData;
+    console.log(userData);
+  const userId = userData?.userId as string;
+  const { birthdate, occupation } = candidateAccountSetupData; 
 
+  console.log(candidateAccountSetupData);
+
+  console.log(BirthDateRegex.test(birthdate))
   if (
     !(birthdate && occupation) ||
     !(BirthDateRegex.test(birthdate) && validOccupations.includes(occupation))
@@ -23,7 +27,7 @@ const setupCandidateAccount: RequestHandler = async (req, res) => {
   }
 
   try {
-    const sql = `ISERT INTO candidates (user_id,birthdate,occupation) VALUES(?,?,?)`;
+    const sql = `INSERT INTO candidates (user_id,birthdate,occupation) VALUES(?,?,?)`;
     const values = [userId, birthdate, occupation];
     await mainDBPool.query(sql, values);
     res.status(200).json("account_set_up");

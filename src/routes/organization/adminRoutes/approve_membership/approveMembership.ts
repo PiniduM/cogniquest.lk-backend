@@ -4,9 +4,8 @@ import mainDBPool from "../../../../utils/mainDBPool.js";
 
 const approveMembership: RequestHandler = async (req, res) => {
   const { member_id, parsedData } = req.body as TApproveMembershipsReqBody;
-  const { organizationMembership } = parsedData;
 
-  const { organization_id } = organizationMembership;
+  const { organization_id } = parsedData.relevantMembership
 
   const sql = `UPDATE organization_memberships SET admin_approved='Y' WHERE member_id=? AND organization_id=?`;
   // a malecious admin may try with member_ids not related to his organization. so organization_id of admin is checked

@@ -8,10 +8,6 @@ const giveAssociatedCompetitions: RequestHandler = async (req, res) => {
   console.log(data.parsedData);
   const { userId, validMemberships } = data.parsedData;
 
-  // const sql = `SELECT competition_id,title,accessibility,'status',organization_name FROM
-  //   ((SELECT organization_id FROM organization_memberships WHERE user_id=?) AS orgids
-  //   INNER JOIN organizations USING (organization_id) )
-  //   INNER JOIN competitions USING (organization_id);`;
   const accessibleOrganizationIds = validMemberships.map(
     (membership) => membership.organization_id
   );

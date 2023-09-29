@@ -24,16 +24,17 @@ DROP TABLE IF EXISTS `applications`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `applications` (
   `application_id` int NOT NULL AUTO_INCREMENT,
-  `candidate_id` int NOT NULL,
   `competition_id` mediumint NOT NULL,
+  `candidate_id` int NOT NULL,
   `applied_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `additional_data` json DEFAULT NULL,
+  `approved` char(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY (`application_id`),
   UNIQUE KEY `no_duplicates` (`competition_id`,`candidate_id`),
   KEY `fk-candidate_id_idx` (`candidate_id`),
-  CONSTRAINT `fk-applications-candidate_id` FOREIGN KEY (`candidate_id`) REFERENCES `candiadtes` (`candidate_id`),
+  CONSTRAINT `fk-applications-candidate_id` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`candidate_id`),
   CONSTRAINT `fk-applications-competition_id` FOREIGN KEY (`competition_id`) REFERENCES `competitions` (`competition_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,17 +43,18 @@ CREATE TABLE `applications` (
 
 LOCK TABLES `applications` WRITE;
 /*!40000 ALTER TABLE `applications` DISABLE KEYS */;
+INSERT INTO `applications` VALUES (2,16,1,'2023-09-29 16:59:07',NULL,'Y');
 /*!40000 ALTER TABLE `applications` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `candiadtes`
+-- Table structure for table `candidates`
 --
 
-DROP TABLE IF EXISTS `candiadtes`;
+DROP TABLE IF EXISTS `candidates`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `candiadtes` (
+CREATE TABLE `candidates` (
   `candidate_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `birthdate` date NOT NULL,
@@ -60,16 +62,17 @@ CREATE TABLE `candiadtes` (
   PRIMARY KEY (`candidate_id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
   CONSTRAINT `fk-candidates-user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `candiadtes`
+-- Dumping data for table `candidates`
 --
 
-LOCK TABLES `candiadtes` WRITE;
-/*!40000 ALTER TABLE `candiadtes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `candiadtes` ENABLE KEYS */;
+LOCK TABLES `candidates` WRITE;
+/*!40000 ALTER TABLE `candidates` DISABLE KEYS */;
+INSERT INTO `candidates` VALUES (1,57,'2023-09-10','OL-student');
+/*!40000 ALTER TABLE `candidates` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -128,7 +131,7 @@ CREATE TABLE `competitions` (
   UNIQUE KEY `competition_title_UNIQUE` (`competition_title`),
   KEY `fk-competitions-organization_id_idx` (`organization_id`),
   CONSTRAINT `fk-competitions-organization_id` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`organization_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,6 +140,7 @@ CREATE TABLE `competitions` (
 
 LOCK TABLES `competitions` WRITE;
 /*!40000 ALTER TABLE `competitions` DISABLE KEYS */;
+INSERT INTO `competitions` VALUES (16,1,'Competition 1','Description 1','public',NULL,NULL,NULL,'.rar,.zip','live','Y','Y','FormLink1'),(17,26,'Competition 2','Description 2','link',NULL,NULL,NULL,'.rar,.zip','pending','N','N','FormLink2'),(18,27,'Competition 3','Description 3','public',NULL,NULL,NULL,'.rar,.zip','pending','N','N','FormLink3'),(19,28,'Competition 4','Description 4','public',NULL,NULL,NULL,'.rar,.zip','pending','N','N','FormLink4'),(20,1,'Competition 5','Description 5','public',NULL,NULL,NULL,'.rar,.zip','pending','N','N','FormLink5'),(21,26,'Competition 6','Description 6','public',NULL,NULL,NULL,'.rar,.zip','pending','N','N','FormLink6'),(22,27,'Competition 7','Description 7','public',NULL,NULL,NULL,'.rar,.zip','pending','N','N','FormLink7'),(23,28,'Competition 8','Description 8','passcode_protected','1234',NULL,NULL,'.rar,.zip','pending','N','N','FormLink8'),(40,1,'competiton 1 - astronomy','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae quos ea doloribus nobis fugiat vitae hic provident suscipit similique nihil voluptas minima neque, excepturi dicta reiciendis in ratione rem! Natus?\n','public',NULL,'http://localhost:3000/competitions/competiton_1 - astronomy',NULL,'.rar,.zip','pending','Y','N','http://localhost:3000/competitions/application_forms/competiton 1 - astronomy application form.pdf');
 /*!40000 ALTER TABLE `competitions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,18 +243,14 @@ DROP TABLE IF EXISTS `project_submissions`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `project_submissions` (
   `submission_id` int NOT NULL AUTO_INCREMENT,
-  `candidate_id` int NOT NULL,
-  `competition_id` mediumint NOT NULL,
-  `submission_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `application_id` int NOT NULL,
+  `submitted_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `asset_path` varchar(200) NOT NULL,
-  `project_submissionscol` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`submission_id`),
-  UNIQUE KEY `no_duplicates` (`candidate_id`,`competition_id`),
-  KEY `fk-candidate_id_idx` (`candidate_id`),
-  KEY `fk-submission-host_id` (`competition_id`),
-  CONSTRAINT `fk-submission-candidate_id` FOREIGN KEY (`candidate_id`) REFERENCES `candiadtes` (`candidate_id`),
-  CONSTRAINT `fk-submission-host_id` FOREIGN KEY (`competition_id`) REFERENCES `competitions` (`competition_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `application_id_UNIQUE` (`application_id`),
+  UNIQUE KEY `asset_path_UNIQUE` (`asset_path`),
+  CONSTRAINT `fk-submissions-applicatiom_id` FOREIGN KEY (`application_id`) REFERENCES `applications` (`application_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -259,6 +259,7 @@ CREATE TABLE `project_submissions` (
 
 LOCK TABLES `project_submissions` WRITE;
 /*!40000 ALTER TABLE `project_submissions` DISABLE KEYS */;
+INSERT INTO `project_submissions` VALUES (11,2,'2023-09-29 17:06:53','/upload/projects/application_id_2_project_file');
 /*!40000 ALTER TABLE `project_submissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,4 +330,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-15 22:06:23
+-- Dump completed on 2023-09-29 23:05:49

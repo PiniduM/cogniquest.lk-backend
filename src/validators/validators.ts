@@ -23,7 +23,6 @@ export const fullNameRegex =
 export const candidateUsernameRegex = /^[a-zA-Z0-9]{6,8}$/;
 export const candidatePasswordRegex = /^[a-zA-Z0-9]{6,12}$/;
 export const validOccupations = [
-  "dummy",
   "OL-student",
   "AL-student",
   "undergraduate",

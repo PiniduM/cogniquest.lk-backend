@@ -5,8 +5,7 @@ import { RowDataPacket } from "mysql2";
 
 const giveMembershipsWaitingForApproval: RequestHandler = async (req, res) => {
   const { parsedData } = req.body as IParsedByAdminMembershipValidator;
-  const { organizationMembership } = parsedData;
-  const { organization_id } = organizationMembership;
+  const { organization_id } = parsedData.relevantMembership;
 
   const sql = `SELECT member_id,username,full_name,email,role FROM organization_memberships INNER JOIN users USING (user_id) WHERE organization_id=? AND admin_approved='N';`;
   const values = [organization_id];

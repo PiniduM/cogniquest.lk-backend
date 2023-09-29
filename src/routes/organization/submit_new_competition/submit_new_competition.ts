@@ -4,47 +4,39 @@ import { RequestHandler } from "express";
 import { TSubmitNewCompetitionReqBody } from "../../../types/organizationRoutes.js";
 import mainDBPool from "../../../utils/mainDBPool.js";
 import { ErrorPacketParams, ResultSetHeader } from "mysql2";
+import generateFileUploadToken from "../../../utils/fileUploadToken/generateFileUploadToken.js";
 
 const submitNewCompetition: RequestHandler = async (req, res) => {
-  const data = req.body as TSubmitNewCompetitionReqBody;
-  const applicationFormPDF = req.file;
-  const deleteApplicationForm = async () => {
-    const filePath = applicationFormPDF?.path;
-    filePath && fs.unlinkSync(filePath);
-  };
   const {
-    organization_id,
-    competition_title,
+    organizationId,
+    competitionTitle,
     description,
-    accessibility,
+    accessibilityObject,
+    applicationFormPresent,
     parsedData,
-  } = data;
+  } = req.body as TSubmitNewCompetitionReqBody;
 
-  const { organizationMembership } = parsedData;
+  const { relevantMembership } = parsedData ;
 
-  const adminApproved = organizationMembership.role === "admin" ? "Y" : "N";
+  const adminApproved = relevantMembership.role === "admin" ? "Y" : "N";
 
-  const accessibilityParsed = JSON.parse(accessibility);
-  const { type: accessibilityType } = accessibilityParsed;
-  //   const passcodeProtected = accessibilityType === "passcode-protected";
   const competitionLink = `${
     process.env.CLIENT_DOMAIN
-  }/competitions/${competition_title.replace(" ", "_").toLowerCase()}`;
-  const applicationFormLink = `${
-    process.env.CLIENT_DOMAIN
-  }/competitions/application_forms/${competition_title
-    .replace(" ", "_")
-    .toLowerCase()}`;
+  }/competitions/${competitionTitle.replace(" ", "_").toLowerCase()}`;
+  const applicationFormFileName = `${competitionTitle} application form.pdf`;
+  const applicationFormLink = applicationFormPresent
+    ? `${process.env.CLIENT_DOMAIN}/competitions/application_forms/${applicationFormFileName}`
+    : null;
 
   const sql = `INSERT INTO competitions 
   (organization_id,competition_title,description,accessibility,passcode,competition_link, status,admin_approved,application_form_link) 
    VALUES ( ?,?,?,?,?,?,?,?,?);`;
   const values = [
-    organization_id,
-    competition_title,
+    organizationId,
+    competitionTitle,
     description,
-    accessibilityType,
-    accessibilityParsed.passcode || null,
+    accessibilityObject.type,
+    accessibilityObject.passcode || null,
     competitionLink,
     "pending",
     adminApproved,
@@ -53,10 +45,18 @@ const submitNewCompetition: RequestHandler = async (req, res) => {
   try {
     const response = (await mainDBPool.query(sql, values)) as ResultSetHeader[];
     console.log(response);
-    const result = response[0];
-    res.status(200).json("competition_submitted");
+    if (applicationFormPresent) {
+      const applicationFormUploadToken = generateFileUploadToken(
+        applicationFormFileName,
+        "application_form",
+        50,
+        [".pdf"]
+      );
+      res.status(200).json({ applicationFormUploadToken });
+    } else {
+      res.status(200).json("competition_submitted");
+    }
   } catch (err) {
-    
     const error = err as ErrorPacketParams;
     console.log(error);
     if (error?.code === "ER_DUP_ENTRY") res.status(406).json("duplicate_title");

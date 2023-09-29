@@ -18,9 +18,16 @@ const giveAssociatedOrganizations: RequestHandler = async (req, res) => {
   const sql = `SELECT organization_id,organization_name FROM organizations WHERE organization_id IN ${Filteringvalues}`;
 
   try {
-    const response = await mainDBPool.query(sql) as RowDataPacket;
-    const result = response[0];
-    res.status(200).json({ associatedOrganizations: result });
+    const response = (await mainDBPool.query(sql)) as RowDataPacket;
+    const result = response[0] as { [key: string]: string }[];
+    const mappedResult = result.map(
+      ({ organization_id, organization_name }) => ({
+        organizationId: organization_id,
+        organizationName: organization_name,
+      })
+    );
+    //figure out a way to get rid of these mappings (changing column names to camelcase is a option but it may cause errors in db)
+    res.status(200).json({ associatedOrganizations: mappedResult });
   } catch (error) {
     console.log(error);
     res.status(501).json("unknown_error");

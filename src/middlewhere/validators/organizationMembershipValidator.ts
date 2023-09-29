@@ -9,20 +9,21 @@ const organizationMembershipValidator = (
   res: Response,
   next: NextFunction
 ) => {
-  const organizationMembershipsToken = req.header(
-    "organization_memberships_token"
-  );
-  const organizationId = req.header("organization_id");
-  if (!organizationMembershipsToken) res.status(401).json("unauthorized");
+  const authorization = req.header("authorization");
+  if (!authorization || !authorization.startsWith("Bearer"))
+    res.status(401).json("no_organization_memberships_token");
+  if (!authorization) res.status(401).json("unauthorized");
   else {
     try {
+      const organizationMembershipsToken = authorization.slice(7); //to remove bearer prefix
+      const { organizationId } = req.body;
       const payload = verifyAndDecodeJWT(
         organizationMembershipsToken
       ) as IOrganizationMembershipsPayload;
-      const { user_id, memberships } = payload;
+      const { memberships } = payload;
       if (!memberships) {
-        console.log("h");
         res.status(401).json("unauthorized");
+        console.log(2)
         return;
         //token mismatch
       }
@@ -31,20 +32,30 @@ const organizationMembershipValidator = (
         memberships
       ) as TParsedMembershipsArray;
       const relevantMembership = membershipsArray.find(
-        (membership) => membership.organization_id === organizationId
+        (membership) => membership.organization_id == organizationId
       );
       if (!relevantMembership) {
         res.status(401).json("unauthorized");
+        console.log(3)
         return;
       }
       if (
-        (relevantMembership.role !== "admin" &&
+        (relevantMembership &&
+          relevantMembership.role !== "admin" &&
           relevantMembership.admin_approved === "Y") ||
         relevantMembership.system_verified === "Y"
-      )
-        req.body.relevantMembership = relevantMembership;
+      ) {
+        const parsedData = req.body.parsedData;
+        if (parsedData) {
+          parsedData.relevantMembership = relevantMembership;
+        } else {
+          const parsedData = { relevantMembership };
+          req.body.parsedData = parsedData;
+        }
+      }
       next();
-    } catch {
+    } catch (error) {
+      console.log(error);
       res.status(406).send("invalid_memberships_token");
     }
   }

@@ -50,6 +50,7 @@ const giveCandidateToken: RequestHandler = async (req, res) => {
     const responseBody = { candidateToken };
     res.status(200).json(responseBody);
   } catch (error) {
+    console.log(error);
     res.status(500).json("unknown_error");
   }
 };

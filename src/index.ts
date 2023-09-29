@@ -9,6 +9,7 @@ import managementRouter from "./routes/management/managementRouter.js";
 import generalRouter from "./routes/general/generalRouter.js";
 import candidateRouter from "./routes/candidate/candidateRouter.js";
 import organizationRouter from "./routes/organization/organizationRouter.js";
+import uploadRouter from "./routes/upload/uploadRouter.js";
 
 //dev setup
 // const srcDirectoryRoot = __dirname;
@@ -34,6 +35,7 @@ server.use("/candidate", candidateRouter);
 server.use("/organization_member", organizationMemberRouter);
 server.use("/organization", organizationRouter);
 server.use("/management", managementRouter);
+server.use("/upload",uploadRouter)
 
 server.listen(process.env.PORT, () => {
   console.log(`listening to port ${process.env.PORT}`);

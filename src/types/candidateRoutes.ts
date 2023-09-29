@@ -10,15 +10,22 @@ export interface ICandidateTokenPayload {
   occupation: string;
 }
 
-export interface IDefaultCandidateReqBody {
+export interface IParsedByCandidateTokenValidator {
   candidateToken: string;
   candidateData: ICandidateTokenPayload & JwtPayload;
 }
 
-export type TGiveCompetitionReqBody = IDefaultCandidateReqBody & {
+export type TGiveCompetitionReqBody = IParsedByCandidateTokenValidator & {
   competitionId: string;
 };
 
-export type TApplyForCompetitionReqBody = IDefaultCandidateReqBody & {
+export type TApplyForCompetitionReqBody = IParsedByCandidateTokenValidator & {
   competitionId: string;
+};
+export type TGiveParticipationStatusReqBody = IParsedByCandidateTokenValidator & {
+  competitionId: string;
+};
+
+export type TSubmitProjectReqBody = IParsedByCandidateTokenValidator & {
+  applicationId: string;
 };

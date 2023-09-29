@@ -14,20 +14,22 @@ organizationMemberRouter.post(
   "/give_organization_memberships_token",
   giveOrganizationMembershipsToken
 );
+
+organizationMemberRouter.use("/", organizationMembershipsValidator);
 organizationMemberRouter.post(
   "/give_competition",
-  organizationMembershipsValidator,
+
   giveCompetition
 );
 
 organizationMemberRouter.post(
   "/give_associated_organizations",
-  organizationMembershipsValidator,
+
   giveAssociatedOrganizations
 );
 organizationMemberRouter.post(
   "/give_associated_competitions",
-  organizationMembershipsValidator,
+
   giveAssociatedCompetitions
 );
 export default organizationMemberRouter;

@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 
 import mainDBPool from "../../../utils/mainDBPool.js";
 import { RowDataPacket } from "mysql2";
-import giveParticipationStatus from "./utils/giveParticipationStatus.js";
+import giveParticipationStatus from "../giveApplicationStatus/giveParticipationStatus.js";
 import { TGiveCompetitionReqBody } from "../../../types/candidateRoutes.js";
 
 const giveCompetition: RequestHandler = async (req, res) => {
@@ -22,11 +22,7 @@ const giveCompetition: RequestHandler = async (req, res) => {
     const result = response[0];
     const row = result[0];
     console.log(response);
-    const participationStatus = await giveParticipationStatus(
-      competitionId,
-      candidateId
-    );
-    const data = { competition: row, participationStatus };
+    const data = { competition: row };
     res.status(200).json(data);
   } catch (error) {
     console.log(error);

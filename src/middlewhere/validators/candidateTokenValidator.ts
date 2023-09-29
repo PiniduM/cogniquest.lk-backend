@@ -8,7 +8,11 @@ const candidateTokenValidator = (
   res: Response,
   next: NextFunction
 ) => {
-  const candidateToken = req.header("candidate_token");
+  const authorization = req.header("authorization");
+  if (!authorization || !authorization.startsWith("Bearer"))
+    res.status(401).json("no_organization_memberships_token");
+  if (!authorization) res.status(401).json("unauthorized");
+  const candidateToken = authorization?.slice(7); //to remove bearer prefix
   if (!candidateToken) res.status(401).send("no_candidate_token");
   else {
     const candidateData = verifyAndDecodeJWT(candidateToken) as

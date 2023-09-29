@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { IParsedByValidateOrganizationMembership } from "../../types/organizationRoutes.js";
-const adminMembershipsValidator = (
+const adminMembershipValidator = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { parsedData } = req.body as IParsedByValidateOrganizationMembership;
-  const { organizationMembership } = parsedData;
-  if (organizationMembership.role !== "admin") {
+  const { relevantMembership } = parsedData; //there must be a relevent membership(validated by organization memberships validator);
+  if (relevantMembership.role !== "admin") {
     res.status(401).json("unauthorized: not a admin");
     return;
   }
   next();
 };
 
-export default adminMembershipsValidator;
+export default adminMembershipValidator;

@@ -9,19 +9,19 @@ const organizationMembershipsValidator = (
   res: Response,
   next: NextFunction
 ) => {
-  const organizationMembershipsToken = req.header(
-    "organization_memberships_token"
-  );
-  if (!organizationMembershipsToken) res.status(401).json("unauthorized");
+  const authorization = req.header("authorization");
+  if (!authorization || !authorization.startsWith("Bearer"))
+    res.status(401).json("no_organization_memberships_token");
   else {
     try {
+      const organizationMembershipsToken = authorization.slice(7);
       const payload = verifyAndDecodeJWT(
         organizationMembershipsToken
       ) as IOrganizationMembershipsPayload;
       const { user_id, memberships } = payload;
       if (!memberships) {
         console.log("h");
-        res.status(401).json("unauthorized");
+        res.status(401).json("token_mismatch");
         return;
         //token mismatch
       }
@@ -29,13 +29,14 @@ const organizationMembershipsValidator = (
       const membershipsArray = JSON.parse(
         memberships
       ) as TParsedMembershipsArray;
+      console.log(membershipsArray)
       const validMemberships = membershipsArray.filter(
         (membership) =>
           (membership.role !== "admin" && membership.admin_approved === "Y") ||
           membership.system_verified === "Y"
       );
       if (validMemberships.length < 1) {
-        res.status(401).json("unauthorized");
+        res.status(401).json("no_valid_memberships");
         return;
       }
       const parsedData = { userId: user_id, validMemberships };

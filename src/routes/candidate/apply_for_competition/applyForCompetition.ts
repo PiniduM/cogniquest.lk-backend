@@ -14,8 +14,10 @@ const applyForCompetition: RequestHandler = async (req, res) => {
 
   const { candidateId } = candidateData;
 
-  const sql = `INSERT INTO applications (competition_id,candidate_id) VALUES (?,?)`;
-  const values = [competitionId, candidateId];
+  const sql = `INSERT INTO applications (competition_id,candidate_id,approved) VALUES (?,?)`;
+  const values = [competitionId, candidateId,'Y'];
+
+  //remove setting approved to Y when host's approval is developped . (by default approved is set to 'N') 
 
   try {
     const response = await mainDBPool.query(sql, values);

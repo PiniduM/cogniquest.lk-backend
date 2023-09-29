@@ -33,10 +33,8 @@ export type TloginData = {
 };
 
 export interface decryptedLoginToken {
-  email: string;
-  user_id: string;
-  username: string;
-  account_type: string;
+  userId: string;
+  accountType: string;
 }
 
 export type TOrganizationRegistrationData = {
