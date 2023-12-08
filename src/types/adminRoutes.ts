@@ -18,3 +18,4 @@ export type TGiveCompetitionsWaitingForApprovalReqBody =
 export type TApproveCompetitionReqBody = IParsedByAdminMembershipValidator & {
   competitionId: string;
 };
+
