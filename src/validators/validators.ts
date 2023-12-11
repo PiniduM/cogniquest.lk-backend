@@ -1,7 +1,3 @@
-//simlinked frontend\validator.ts <-> backend\validator.ts
-//sensitive data are not exposed if they are not imported in client
-//but don't take a risk create a seperate file if necessary.
-
 //common
 export const emailRegex =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
