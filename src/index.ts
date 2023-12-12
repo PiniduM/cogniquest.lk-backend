@@ -20,11 +20,13 @@ dotenv.config();
 
 const server = express();
 
+//config cors options in production
+
 const corsOptions = {
   origin: process.env.ALLOWED_ORIGIN,
   methods: ["POST"],
 };
-server.use(cors(corsOptions));
+server.use(cors());
 
 server.use(json());
 
