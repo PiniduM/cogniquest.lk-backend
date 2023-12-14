@@ -19,6 +19,10 @@ const setupOrganizationMembership: RequestHandler = async (req, res) => {
     const sql = `INSERT INTO organization_memberships (user_id,organization_id,role) VALUES(?,(SELECT organization_id from organizations WHERE reference_code = ?),?)`;
     const values = [userId, referenceCode,role];
     await mainDBPool.query(sql, values);
+
+    const sql2 = `UPDATE users set account_type="host" WHERE user_id=? LIMIT 1;`
+    const values2 = [userId];
+    await mainDBPool.query(sql2,values2);
     res.status(200).json("account_set_up");
   } catch (err) {
     console.log(err);

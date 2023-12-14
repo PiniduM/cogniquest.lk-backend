@@ -30,10 +30,14 @@ const setupCandidateAccount: RequestHandler = async (req, res) => {
     const sql = `INSERT INTO candidates (user_id,birthdate,occupation) VALUES(?,?,?)`;
     const values = [userId, birthdate, occupation];
     await mainDBPool.query(sql, values);
+
+    const sql2 = `UPDATE users set account_type="candidate" WHERE user_id=? LIMIT 1;`
+    const values2 = [userId];
+    await mainDBPool.query(sql2,values2);
     res.status(200).json("account_set_up");
   } catch (err) {
     console.log(err);
-    res.status(500).json("unknown_error");
+    res.status(500).json(err);
   }
 };
 
